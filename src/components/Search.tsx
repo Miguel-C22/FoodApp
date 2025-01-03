@@ -14,7 +14,7 @@ const Container = styled(Box)`
 `
 
 type SearchProps = {
-    onSubmit: () => void;
+    onSubmit: (input: string) => void;
     setInput: React.Dispatch<React.SetStateAction<string>>;
     input: string
 }
@@ -28,7 +28,7 @@ function Search({
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if(input.length > 0){
             if (e.key === "Enter") {
-                onSubmit(); 
+                onSubmit(input); 
             }
         }
     };
@@ -42,10 +42,11 @@ function Search({
             label="Search Food" 
             variant="standard" 
             onChange={(e) => {setInput(e.target.value)}} 
+            value={input ? input : ""}
         />
         <Button 
             variant="contained" 
-            onClick={onSubmit}
+            onClick={() => {onSubmit(input)}}
             disabled={!input.trim()}
         >
             <SearchIcon/>

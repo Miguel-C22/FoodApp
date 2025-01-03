@@ -62,28 +62,35 @@ type DisplayData = {
   error: boolean;
 };
 
-function DisplayData({ foodData, loading, error}: DisplayData) {
+function DisplayData({ 
+    foodData, 
+    loading, 
+    error 
+}: DisplayData) {
+    
   const [caloriedense, setCaloriedense] = useState<any[]>([]);
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null); 
 
-  useEffect(() => {
+  const getTheThreeCalorieDenseFoods = () => {
     const foodsWithCalories = foodData.map((data) => {
-      const caloriesNutrient = data.nutrition.nutrients.find(
-        (nutrient: any) => nutrient.name.toLowerCase() === 'calories'
-      );
-      return {
-        ...data,
-        calories: caloriesNutrient ? caloriesNutrient.amount : 0,
-      };
-    });
-    const sortedFoods = foodsWithCalories.sort((a, b) => a.calories - b.calories);
-    const leastCalorieDense = sortedFoods.slice(0, 3);
-    setCaloriedense(leastCalorieDense);
-  }, [foodData]);
+        const caloriesNutrient = data.nutrition.nutrients.find(
+          (nutrient: any) => nutrient.name.toLowerCase() === 'calories'
+        );
+        return {
+          ...data,
+          calories: caloriesNutrient ? caloriesNutrient.amount : 0,
+        };
+      });
+      const sortedFoods = foodsWithCalories.sort((a, b) => a.calories - b.calories);
+      const leastCalorieDense = sortedFoods.slice(0, 3);
+      setCaloriedense(leastCalorieDense);
+      console.log(caloriedense)
+  }
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg?w=360";
   };
+
   const cleanSummaryText = (summary: string) => {
     const cleanedSummary = summary
       .replace(/<b>/g, '')  
@@ -99,6 +106,10 @@ function DisplayData({ foodData, loading, error}: DisplayData) {
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
+
+  useEffect(() => {
+    getTheThreeCalorieDenseFoods()
+  }, [foodData]);
 
   return (
     <Box>

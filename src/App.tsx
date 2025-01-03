@@ -3,6 +3,7 @@ import { Box, styled, Typography } from '@mui/material'
 import Search from './components/Search'
 import DisplayData from './components/DisplayData'
 import useGetData from './hooks/useGetData'
+import DisplaySearches from './components/DisplaySearches'
 
 const Container = styled(Box)`
     display: flex;
@@ -16,13 +17,21 @@ const Container = styled(Box)`
 
 function App() {
   const [input, setInput] = useState<string>("")
-  const {onSubmit, foodData, error, loading } = useGetData({searchInput: input})
+  const {
+    onSubmit, 
+    queryData, 
+    foodData, 
+    error, 
+    loading 
+  } = useGetData()
+
 
   return (
     <Container>
       <Typography variant='h4'>Food App</Typography>
       <Search onSubmit={onSubmit} setInput={setInput} input={input}/>
       <DisplayData foodData={foodData} loading={loading} error={error}/>
+      <DisplaySearches queryData={queryData} onSubmit={onSubmit} setInput={setInput}/>
     </Container>
   )
 }

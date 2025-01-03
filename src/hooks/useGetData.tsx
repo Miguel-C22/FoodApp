@@ -1,18 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import postSearchQuery from '../utils/postSearchQuery';
+import getSearchQuery from '../utils/getSearchQuery';
 
-type useGetDataProps = {
-    searchInput?: string;
-};
-
-function useGetData({ searchInput }: useGetDataProps) {
+function useGetData() {
     const [foodData, setFoodData] = useState<any[]>([]);
+    const [queryData, setQueryData] = useState<any[]>([]);
     const [error, setError] = useState<boolean>(false);
     const [loading, setLoader] = useState<boolean>(false);
     const apiKey = process.env.REACT_APP_API_KEY;
 
-    const onSubmit = () => {
+    const fetchSearchQuery = () => {
+        getSearchQuery()
+        .then((data) => {
+            setQueryData([...data])
+        })
+        .catch((err) => {
+            console.error('Error fetching data:', err);
+        });
+    }
+    
+    useEffect(() => {
+        fetchSearchQuery()
+    }, [])
+
+    const onSubmit = (searchInput: string) => {
         setError(false);
         setLoader(true);
+
+        postSearchQuery(searchInput)
+        fetchSearchQuery()
 
         fetch(`https://api.spoonacular.com/recipes/complexSearch?query=${searchInput}&apiKey=${apiKey}&addRecipeNutrition=true`)
             .then((response) => response.json())
@@ -29,8 +45,9 @@ function useGetData({ searchInput }: useGetDataProps) {
             .finally(() => {
                 setLoader(false);
             });
+
     };
-    return { foodData, error, loading, onSubmit };
+    return {queryData, foodData, error, loading, onSubmit };
 }
 
 export default useGetData;

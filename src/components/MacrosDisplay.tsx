@@ -15,17 +15,21 @@ type MacroDisplayProps = {
   index: number; 
 };
 
-function MacroDisplay({ caloriedense, index }: MacroDisplayProps) {
+function MacroDisplay({ 
+  caloriedense, 
+  index 
+}: MacroDisplayProps) {
+  
   const [macros, setMacros] = useState<any[]>([]);
 
-  useEffect(() => {
+  const getSpecificMacros = () => {
     if (caloriedense[index]) {
       const relevantMacros = caloriedense[index].nutrition.nutrients.filter((m: any) =>
         ["Protein", "Carbohydrates", "Fat", "Sugar"].includes(m.name)
       );
       setMacros(relevantMacros);
     }
-  }, [caloriedense, index]);
+  }
 
   const displayColorDots = (name: string) => {
     switch (name) {
@@ -41,6 +45,10 @@ function MacroDisplay({ caloriedense, index }: MacroDisplayProps) {
         return null;
     }
   };
+   
+  useEffect(() => {
+    getSpecificMacros()
+  }, [caloriedense, index]);
 
   return (
     <>
