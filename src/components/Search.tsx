@@ -36,6 +36,7 @@ function Search({
   return (
     <Container>
         <TextField 
+            data-testid="input-food-field"
             fullWidth 
             id="standard-basic" 
             onKeyDown={handleKeyDown} 

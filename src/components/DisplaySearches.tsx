@@ -99,11 +99,12 @@ function DisplaySearches({
                             onClick={() => search(data.searchQuery)}
                             onDelete={() => remove(data.id)}
                             color="primary"
+                            data-testid={`delete-chip-${data.id}`}
                         />
                     </Box>
                 ))}
             </> 
-                : null}
+                : "No Searches yet added."}
         </ChipContainer>
     </Container>
   )
