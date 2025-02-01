@@ -15,3 +15,8 @@ Clone Repository on your local machine.
 - In a new terminal, navigate to the backend folder in your directory.
 - Run ```npm install``` in your terminal.
 - Run ```npm start```.
+
+## For running tests you should have the dependencies installed If not follow the first steps above 👇
+
+- When running this command make sure you are in the main directory and not in the backend folder. 
+- Run ```npm test``` in your terminal.
